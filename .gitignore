@@ -1,0 +1,4 @@
+*.exe
+*.prof
+.idea
+*.xml
