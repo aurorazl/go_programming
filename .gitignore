@@ -2,3 +2,4 @@
 *.prof
 .idea
 *.xml
+vendor
