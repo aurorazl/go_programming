@@ -24,34 +24,39 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 	if head == nil || head.Next == nil || k == 1 {
 		return head
 	}
-	cur := slow.Next
-	prev := slow
-	last_prev := slow
-	for fast.Next != nil {
-		for i := 1; i < k; i++ {
-			if fast.Next == nil {
+	var last_prev *ListNode
+	var prev *ListNode
+	for {
+		for i := 0; i < k; i++ {
+			if fast == nil {
+				last_prev.Next = slow
 				return newHead
 			}
 			fast = fast.Next
 		}
+		cur := slow.Next
+		prev = slow
 		for i := 1; i < k; i++ {
 			next := cur.Next
 			cur.Next = prev
 			prev = cur
 			cur = next
 		}
-		prev = last_prev
-		last_prev = cur
 		if newHead == nil {
-			newHead = cur
+			newHead = prev
 		}
+		if last_prev != nil {
+			last_prev.Next = prev
+		}
+		last_prev = slow
+		slow = fast
 	}
-	return newHead
 }
 
 func main() {
 	a := &ListNode{1, &ListNode{2, &ListNode{3, &ListNode{4, &ListNode{5, nil}}}}}
-	reverseKGroup(a, 2)
+	b := &ListNode{1, &ListNode{2, nil}}
+	a = reverseKGroup(b, 2)
 	for a != nil {
 		fmt.Println(a.Val)
 		a = a.Next
