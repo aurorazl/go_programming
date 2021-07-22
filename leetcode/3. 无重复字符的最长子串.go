@@ -35,7 +35,7 @@ func lengthOfLongestSubstring2(s string) int {
 		if i != 0 {
 			delete(storage, s[i-1])
 		}
-		for left < length && storage[s[left]] == 0 {
+		for left < length && storage[s[left]] == 0 { //确保删除了重复的字符
 			storage[s[left]]++
 			left++
 		}
