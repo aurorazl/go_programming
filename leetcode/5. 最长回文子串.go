@@ -11,8 +11,8 @@ import "fmt"
 // 方法一：中心扩散法。
 func longestPalindrome(s string) string {
 	start := 0
-	maxLength := 1
-	for i := 1; i < len(s); i++ {
+	maxLength := 0
+	for i := 0; i < len(s); i++ {
 		left := i - 1
 		right := i + 1
 		length := 1
@@ -24,19 +24,41 @@ func longestPalindrome(s string) string {
 			right++
 			length++
 		}
-		for s[left] == s[right] {
+		for left >= 0 && right < len(s) && s[left] == s[right] {
+			length += 2
 			left--
 			right++
-			length += 2
 		}
 		if maxLength < length {
 			maxLength = length
 			start = left
 		}
 	}
-	return s[start : start+maxLength]
+	return s[start+1 : start+maxLength+1]
+}
+
+//方法2： 动态规划
+func longestPalindrome2(s string) string {
+	dp := [][]bool{}
+	for _ = range s {
+		dp = append(dp, make([]bool, len(s)))
+	}
+	maxLen := 1
+	start := 0
+	for i := 1; i < len(s); i++ {
+		for j := 0; j < i; j++ {
+			if s[i] == s[j] && (i-j <= 2 || dp[i-1][j+1]) == true {
+				dp[i][j] = true
+				if i-j+1 > maxLen {
+					maxLen = i - j + 1
+					start = j
+				}
+			}
+		}
+	}
+	return s[start : start+maxLen]
 }
 
 func main() {
-	fmt.Println(longestPalindrome("bab"))
+	fmt.Println(longestPalindrome2("abbc"))
 }
