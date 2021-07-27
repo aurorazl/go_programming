@@ -14,7 +14,6 @@ package main
 		dp[i][j] = dp[i-1][j]    // a*可以代表aa，.*更强，可以一直归到[n][n+2]的情况（n是.*前面的元素个数，例如aabcd和aa.*）
 		or dp[i][j] = dp[i][j-1] // a*可以代表一个a，.*更强，代表任意字符
 		or dp[i][j] = dp[i][j-2] // a*表示空，.*更强，也可以代表空
-    -- 归纳为dp[i][j-2]的情况
 
 */
 import (
