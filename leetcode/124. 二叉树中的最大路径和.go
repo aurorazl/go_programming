@@ -20,6 +20,16 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+func loadTree(nums []interface{}, index int) (root *TreeNode) {
+	if index < len(nums) {
+		if i, ok := nums[index].(int); ok {
+			root = &TreeNode{i, nil, nil}
+			root.Left = loadTree(nums, index*2+1)
+			root.Right = loadTree(nums, index*2+2)
+		}
+	}
+	return
+}
 func maxPathSum(root *TreeNode) int {
 	maxSum := math.MinInt32
 	var maxGain func(*TreeNode) int
@@ -42,16 +52,7 @@ func max(a, b int) int {
 	}
 	return b
 }
-func loadTree(nums []interface{}, index int) (root *TreeNode) {
-	if index < len(nums) {
-		if i, ok := nums[index].(int); ok {
-			root = &TreeNode{i, nil, nil}
-			root.Left = loadTree(nums, index*2+1)
-			root.Right = loadTree(nums, index*2+2)
-		}
-	}
-	return
-}
+
 func main() {
 	a := loadTree([]interface{}{-10, 9, 20, nil, nil, 15, 7}, 0)
 	fmt.Print(maxPathSum(a))

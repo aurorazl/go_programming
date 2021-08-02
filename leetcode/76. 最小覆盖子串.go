@@ -41,7 +41,7 @@ func minWindow(s string, t string) string {
 		}
 		storage[string(s[index])]--
 		if needCnt == 0 { //当前满足
-			for storage[string(s[left])] != 0 {
+			for storage[string(s[left])] != 0 { //缩小范围，减去非目标字符
 				storage[string(s[left])]++
 				left++
 			}
