@@ -22,6 +22,24 @@ func findDuplicate(nums []int) int {
 	return slow
 }
 
+// 每个数都可以对应数组的一个下标。
+func findDuplicate2(nums []int) int {
+	for i := 0; i < len(nums); {
+		if nums[i] == i+1 {
+			i++
+			continue
+		} else {
+			if nums[i] == nums[nums[i]-1] {
+				return nums[i]
+			} else {
+				nums[i], nums[nums[i]-1] = nums[nums[i]-1], nums[i]
+			}
+		}
+	}
+	return -1
+}
+
 func main() {
 	fmt.Println(findDuplicate([]int{1, 2, 2}))
+	fmt.Println(findDuplicate2([]int{1, 2, 2}))
 }
