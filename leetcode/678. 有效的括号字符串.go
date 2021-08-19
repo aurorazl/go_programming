@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /*
 延伸，字符串包含（，*，），*可以当作（）或者空
 栈(先进后出)
@@ -44,4 +46,7 @@ func isValid(s string) bool {
 		return true
 	}
 	return false
+}
+func main() {
+	fmt.Println(isValid("(*)(*"))
 }
