@@ -7,6 +7,19 @@ import (
 
 /*
 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+时间复杂度为 O(log (m+n))
+一般解法：
+	归并排序
+	双指针移动，双指针下标之和即中位数的位置。
+进阶题解：
+	当 {A}A 和 {B}B 的总长度是偶数时，如果可以确认：
+		len(left_part) = len(right_part)len(left_part)=len(right_part)
+		max(left_part) <= min(right_part)max(left_part)≤min(right_part)
+		中位数就是前一部分的最大值和后一部分的最小值的平均值：
+	当 \text{A}A 和 \text{B}B 的总长度是奇数时，如果可以确认：
+		len(left_part) = len(right_part)len(left_part)=len(right_part)+1
+		max(left_part) <= min(right_part)max(left_part)≤min(right_part)
+	中位数就是前一部分的最大值
 
 */
 

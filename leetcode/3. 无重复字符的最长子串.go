@@ -9,6 +9,7 @@ import (
 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
 */
 
+// 滑动窗口
 func lengthOfLongestSubstring(s string) int {
 	storage := make(map[byte]int)
 	length := len(s)
@@ -26,6 +27,7 @@ func lengthOfLongestSubstring(s string) int {
 	return maxCnt
 }
 
+// 滑动窗口，不如上面高效
 func lengthOfLongestSubstring2(s string) int {
 	storage := make(map[byte]int)
 	length := len(s)
@@ -33,9 +35,9 @@ func lengthOfLongestSubstring2(s string) int {
 	left := 0
 	for i := 0; i < length; i++ {
 		if i != 0 {
-			delete(storage, s[i-1])
+			delete(storage, s[i-1]) // 向前滑动
 		}
-		for left < length && storage[s[left]] == 0 { //确保删除了重复的字符
+		for left < length && storage[s[left]] == 0 { // 直到遇到重复的字符。
 			storage[s[left]]++
 			left++
 		}
