@@ -12,6 +12,7 @@ import (
 输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
 解析：
 	有点像全排列，不同的是每个数字对应多个字母，而且由先后顺序
+	动态规划
 */
 
 func letterCombinations(digits string) []string {

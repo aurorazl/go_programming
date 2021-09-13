@@ -18,6 +18,8 @@ import "fmt"
 深度优先：
     栈调用
 */
+
+//广度
 func generateParenthesis(n int) []string {
 	res := map[string][]int{"(": []int{1, n - 1, n}}
 	for {
