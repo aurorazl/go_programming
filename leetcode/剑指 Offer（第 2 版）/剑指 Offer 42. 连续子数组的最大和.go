@@ -13,8 +13,8 @@ func maxSubArray(nums []int) int {
 	maxSum := math.MinInt32
 	curSum := math.MinInt32
 	for _, n := range nums {
-		curSum = max(n, curSum+n) //当前最大值的动态方程
-		maxSum = max(maxSum, curSum)
+		curSum = max(n, curSum+n)    //目前最大值的动态方程，之前的值是否要累加到当前值上
+		maxSum = max(maxSum, curSum) //历史最大值
 	}
 	return maxSum
 }
