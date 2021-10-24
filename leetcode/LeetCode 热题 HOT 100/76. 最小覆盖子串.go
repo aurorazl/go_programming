@@ -41,14 +41,14 @@ func minWindow(s string, t string) string {
 		}
 		storage[string(s[index])]--
 		if needCnt == 0 { //当前满足
-			for storage[string(s[left])] != 0 { //缩小范围，减去非目标字符
+			for storage[string(s[left])] != 0 { //缩小范围，减去非目标字符或者多余的目标字符
 				storage[string(s[left])]++
 				left++
 			}
 			if index-left < res[1]-res[0] {
 				res = []int{left, index}
 			}
-			storage[string(s[left])]++
+			storage[string(s[left])]++		// 寻找下一个可替代left的字符
 			needCnt++
 			left++
 		}
