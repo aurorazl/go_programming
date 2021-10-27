@@ -37,18 +37,18 @@ func countNodes(root *TreeNode) int {
 	}
 	return sort.Search(1<<(level+1), func(k int) bool {
 		if k <= 1<<level {
-			return false
+			return false //忽略掉非叶子节点
 		}
 		bits := 1 << (level - 1)
 		node := root
 		for node != nil && bits > 0 {
-			if bits&k == 0 { // 与运算，看k是当前第几个节点，左还是右
+			if bits&k == 0 { // 与运算，看k在当前层，应该走左还是右
 				node = node.Left
 			} else {
 				node = node.Right
 			}
 			bits >>= 1
 		}
-		return node == nil
+		return node == nil // 返回能够使f(i)=true的最小的i，这个k也是所求的目标值
 	}) - 1
 }
