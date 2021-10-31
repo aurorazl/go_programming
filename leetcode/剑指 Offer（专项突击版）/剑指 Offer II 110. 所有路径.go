@@ -7,7 +7,7 @@ import "fmt"
 graph的第 i 个数组中的单元都表示有向图中 i号节点所能到达的下一些结点（译者注：有向图是有方向的，即规定了 a→b 你就不能从 b→a ），
 若为空，就是没有下一个节点了。
 
-深度优先搜索 + 回溯
+深度优先搜索(回溯)
 */
 
 func allPathsSourceTarget(graph [][]int) (res [][]int) {
