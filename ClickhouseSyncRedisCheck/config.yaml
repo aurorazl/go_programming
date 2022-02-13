@@ -1,0 +1,18 @@
+db:
+  clickhouse:
+    driver: "clickhouse"
+    ip: "106.52.78.85"
+    port: "9000"
+    username: "root"
+    password: "Pswdforx123!"
+    database: "default"
+  redis:
+    ip: "10.0.48.9"
+    port: "6379"
+    database: 0
+    password:
+  mysql:
+    ip: "127.0.0.1"
+    port: 3306
+    username: root
+    password: 123

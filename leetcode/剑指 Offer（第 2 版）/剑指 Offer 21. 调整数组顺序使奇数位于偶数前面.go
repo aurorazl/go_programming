@@ -9,6 +9,7 @@ import "fmt"
 左右双指针
 */
 
+//快慢
 func exchange(nums []int) []int {
 	i, j := 0, 0
 	for j < len(nums) {

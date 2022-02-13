@@ -12,6 +12,7 @@ import "fmt"
 深度或者广度优先搜索
 */
 
+//广度，队列，遍历每一个可能性
 func movingCount(m int, n int, k int) int {
 	moves := [2][2]int{{1, 0}, {0, 1}}
 	ans := 0

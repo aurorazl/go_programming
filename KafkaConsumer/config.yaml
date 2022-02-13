@@ -1,0 +1,19 @@
+kafka:
+  broker: "10.0.32.15:9092"
+  topic: bill_update_trigger
+  auto_commit: "false"
+  batch_size: 100
+  batch_interval_in_second: 10
+tasks:
+  - bill_type: "app_billing"
+    command: "sh gen_app_converse_billing.sh"
+  - bill_type: "dsp_billing"
+    command: "sh gen_dsp_billing.sh"
+  - bill_type: "search_billing"
+    command: "sh gen_search_billing.sh"
+  - bill_type: "yingyongbao_billing"
+    command: "sh gen_yingyongbao_billing.sh"
+  - bill_type: "tg_billing"
+    command: "sh gen_tencent_game_billing.sh"
+  - bill_type: "yingyongbao_quotation"
+    command: "sh gen_yingyongbao_quotation.sh"

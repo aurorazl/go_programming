@@ -1,0 +1,6 @@
+configList:
+  - name: "应用宝"
+    command: "sh yingyongbao_monitor.sh"
+    botUrl: "https://open.feishu.cn/open-apis/bot/v2/hook/ab94c9aa-9540-4127-a5b4-dde126a98dcc"
+    label: 账单
+    condition: "%s>=1"
