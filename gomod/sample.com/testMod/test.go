@@ -1,4 +1,4 @@
-package testMod
+package sample
 
 import (
 	"fmt"

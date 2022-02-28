@@ -1,4 +1,4 @@
-module sample.com/gomod/testMod
+module sample.com/testMod
 
 go 1.13
 
