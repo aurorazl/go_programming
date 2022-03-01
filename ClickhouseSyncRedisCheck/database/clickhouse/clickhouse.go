@@ -80,6 +80,7 @@ func SelectList(sql string) *sql.Rows {
 }
 
 func SelectMany(models interface{}) {
+	//Db.Select("imei,min(first_active_date) as first_active_date").Group("imei").Find(models)
 	Db.Find(models)
 }
 

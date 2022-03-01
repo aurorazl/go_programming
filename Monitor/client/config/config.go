@@ -17,6 +17,7 @@ type OneConfig struct {
 	BotUrl    string `yaml:"botUrl"`
 	Label     string `yaml:"label"`
 	Condition string `yaml:"condition"`
+	Message   string `yaml:"message"`
 }
 
 func LoadConfig(fileName string) MonitorConfig {

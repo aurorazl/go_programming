@@ -1,4 +1,4 @@
-module test
+module go_programming
 
 go 1.13
 

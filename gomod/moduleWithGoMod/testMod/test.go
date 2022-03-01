@@ -1,4 +1,4 @@
-package sample
+package testMod
 
 import (
 	"fmt"
@@ -6,7 +6,6 @@ import (
 )
 
 func Test() {
-	fmt.Println("Test")
+	fmt.Println("module with go mod, Test")
 	fmt.Println(toml.Key{})
-	return
 }

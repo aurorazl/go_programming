@@ -68,3 +68,18 @@ func KeyExists(key string) bool {
 	}
 	return false
 }
+
+func DeleteKey(key string) {
+	_, err := redisConn.Del(ctx, key).Result()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func HGetAll(key string) map[string]string {
+	result, err := redisConn.HGetAll(ctx, key).Result()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return result
+}

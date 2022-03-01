@@ -8,4 +8,7 @@ go 1.13
 //
 //require github.com/BurntSushi/toml v0.5.0
 //
-//require sample.com/testMod v0.5.0
+
+replace sample.com/gomod/testMod v0.5.0 => /Users/kelvin/Documents/workstate/GoProJect/src/go_programming/gomod/moduleWithGoMod/testMod
+
+require sample.com/gomod/testMod v0.5.0

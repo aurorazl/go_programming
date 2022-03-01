@@ -35,7 +35,12 @@ func judgeCondition(condition string) bool {
 func sendAlert(config config.OneConfig) {
 	fmt.Printf("%s条件不满足，开始发送告警信息\n", config.Name)
 	headers := map[string]string{"Content-Type": "application/json"}
-	rawBody := fmt.Sprintf("{\"msg_type\":\"text\",\"content\":{\"text\":\"[%s] %s 的数据还没生成\"}}", config.Label, config.Name)
+	message := "的数据还没生成"
+	if config.Message != "" {
+		message = config.Message
+	}
+	rawBody := fmt.Sprintf("{\"msg_type\":\"text\",\"content\":{\"text\":\"[%s][%s] %s\"}}",
+		config.Label, config.Name, message)
 	_, err := utils.DoPost(config.BotUrl, headers, rawBody)
 	if err != nil {
 		log.Fatal(err)
