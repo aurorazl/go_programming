@@ -5,6 +5,7 @@ import (
 	"GinQPS/controller"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	ginprometheus "github.com/zsais/go-gin-prometheus"
 	"log"
 	"net/http"
 	"os"
@@ -15,7 +16,13 @@ import (
 func main() {
 	port := config.Config.ServerConfig.Port
 
-	r := gin.Default()
+	//r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Recovery())
+
+	p := ginprometheus.NewPrometheus("gin")
+	p.Use(r)
+
 	controller.AddGroupUser(r)
 
 	srv := &http.Server{

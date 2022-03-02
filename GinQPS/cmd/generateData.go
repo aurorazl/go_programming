@@ -3,10 +3,12 @@ package main
 import (
 	"GinQPS/model"
 	"GinQPS/service"
+	"context"
 	"fmt"
 	"github.com/google/uuid"
 	"math/rand"
 	"sync"
+	"time"
 )
 
 var favorites = []string{"play", "run", "eat", "sleep"}
@@ -53,10 +55,60 @@ func batchGenerateUser() {
 			w.Done()
 		}(i)
 	}
+	time.Sleep(1000)
 	w.Wait()
 	fmt.Println("insert done")
 }
 
+func contextDemo() {
+	ctx, cancel := context.WithCancel(context.Background())
+	for i := 0; i < 5; i++ {
+		go func(ctx context.Context, num int) {
+			select {
+				case <- ctx.Done():
+					break
+				default:
+					fmt.Println("goroutine ", num," waiting for signal")
+					time.Sleep(time.Second)
+			}
+		}(ctx, i)
+	}
+	time.Sleep(3 * time.Second)
+	fmt.Println("begin cancel")
+	cancel()
+}
+
+func contextTimeoutDemo() {
+	ctx, _ := context.WithTimeout(context.Background(), time.Second*3)
+	respChan := make(chan int)
+	for i := 0; i < 5; i++ {
+		go func(ctx context.Context, num int) {
+			time.Sleep(time.Second * 1)
+			fmt.Println("task finish!")
+			respChan <- 1
+		}(ctx, i)
+	}
+	select {
+		case <- ctx.Done():
+			fmt.Println("timeout")
+		case <- respChan:
+			fmt.Println("success")
+	}
+}
+
+func selectDemo() {
+	a := make(chan int)
+	close(a)
+	var i int
+	select {
+	case i = <- a:
+		fmt.Println(i)
+	default:
+		fmt.Println("default")
+		time.Sleep(time.Second*1)
+	}
+}
+
 func main() {
-	batchGenerateUser()
+	//contextTimeoutDemo()
 }

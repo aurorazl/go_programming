@@ -27,6 +27,14 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	sqlDB.SetMaxOpenConns(200)
+	sqlDB.SetMaxIdleConns(200)
+	sqlDB.SetConnMaxIdleTime(time.Hour)
+	sqlDB.SetConnMaxLifetime(time.Hour)
 	Db = db
 }
 

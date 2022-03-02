@@ -1,3 +1,31 @@
 
 
 go get -u github.com/gin-gonic/gin
+
+
+数据库单表百万量级，200线程 * 500轮 的随机主键id查表压测
+![image-20220302154429893](https://raw.githubusercontent.com/aurorazl/markdown/main/image-20220302154429893.png)
+平均耗时为113毫秒，最高为1.7秒, mysql配置为12G + 4核，QPS峰值为3.5K左右
+使用的gorm框架报错：
+    错误1：
+        Too many connections
+        原因：
+            mysql没有配置连接数上限max_connections，在该资源情况下，100个左右线程处理请求（只能100个ESTABLISHED）
+            Threads_connected由max_connections决定。
+        解决： 
+            gorm设置连接池上限、idle时间、lifetime
+    错误2：
+        dial tcp 10.0.0.15:3306: connect: can't assign requested address
+        原因：
+            gorm每次新建本地socket，本机ulimit为10240，socket多数处于TIME_WAIT状态，压测连接数超过文件描述符上限（未超port上限）
+            netstat -tn |grep 3306 | wc -l
+        解决：
+            服务器ulimit -n 50000调高上限后情况减缓。
+            gorm 1.20版本后支持连接池，默认没有上限，可以设置连接上限。
+
+gin请求监控:  
+    go get github.com/zsais/go-gin-prometheus  
+    prometheus配置抓取
+    其他方法：gorm plugin：Prometheus
+mysql监控:  
+    grafana + prometheus + mysqld-exporter
