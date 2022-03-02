@@ -10,16 +10,33 @@ import (
 
 func AddGroupUser(r *gin.Engine) {
 	group := r.Group("/user")
-	group.GET("/get/:id", wrapper(GetOneUser))
+	group.GET("/get/id/:id", wrapper(GetOneUserById))
+	group.GET("/get/id/redis/:id", wrapper(GetOneUserByIdOnRedis))
+	group.GET("/get/name/:name", wrapper(GetOneUserByName))
 	group.POST("/create", wrapper(CreateUser))
 }
 
-func GetOneUser(c *gin.Context) error {
+func GetOneUserById(c *gin.Context) error {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		return EmptyResponse(c, config.REQUEST_ERR_CODE, err.Error())
 	}
 	user := service.GetUserById(id)
+	return Response(c, config.SUCCESS_CODE, "success", user)
+}
+
+func GetOneUserByIdOnRedis(c *gin.Context) error {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		return EmptyResponse(c, config.REQUEST_ERR_CODE, err.Error())
+	}
+	user := service.GetUserByIdOnRedis(id)
+	return Response(c, config.SUCCESS_CODE, "success", user)
+}
+
+func GetOneUserByName(c *gin.Context) error {
+	name := c.Param("name")
+	user := service.GetUserByName(name)
 	return Response(c, config.SUCCESS_CODE, "success", user)
 }
 

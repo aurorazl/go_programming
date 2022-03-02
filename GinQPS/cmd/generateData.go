@@ -65,11 +65,11 @@ func contextDemo() {
 	for i := 0; i < 5; i++ {
 		go func(ctx context.Context, num int) {
 			select {
-				case <- ctx.Done():
-					break
-				default:
-					fmt.Println("goroutine ", num," waiting for signal")
-					time.Sleep(time.Second)
+			case <-ctx.Done():
+				break
+			default:
+				fmt.Println("goroutine ", num, " waiting for signal")
+				time.Sleep(time.Second)
 			}
 		}(ctx, i)
 	}
@@ -89,10 +89,10 @@ func contextTimeoutDemo() {
 		}(ctx, i)
 	}
 	select {
-		case <- ctx.Done():
-			fmt.Println("timeout")
-		case <- respChan:
-			fmt.Println("success")
+	case <-ctx.Done():
+		fmt.Println("timeout") // no active cancel
+	case <-respChan:
+		fmt.Println("success")
 	}
 }
 
@@ -101,14 +101,14 @@ func selectDemo() {
 	close(a)
 	var i int
 	select {
-	case i = <- a:
+	case i = <-a:
 		fmt.Println(i)
 	default:
 		fmt.Println("default")
-		time.Sleep(time.Second*1)
+		time.Sleep(time.Second * 1)
 	}
 }
 
-func main() {
-	//contextTimeoutDemo()
-}
+//func main() {
+//	//contextTimeoutDemo()
+//}

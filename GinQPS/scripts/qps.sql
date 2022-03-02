@@ -6,7 +6,8 @@ create table qps.user (
     `age` TINYINT,
     `favorite` varchar(256),
     `salary` Int,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    index name
 )
 
 DELIMITER $$	--更改结束符
@@ -21,3 +22,5 @@ END $$
 DELIMITER ;	--改回来
 
 call autoinsert(1000000);
+
+alter table qps.user add index (name)

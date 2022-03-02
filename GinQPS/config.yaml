@@ -1,8 +1,14 @@
 db:
   mysql:
-    ip: "10.0.0.15"
+    ip: "localhost"
     port: 3306
     username: root
     password: 123
+  redis:
+    ip: "localhost"
+    port: "6379"
+    database: 0
+    password:
+
 server:
   port: 8080

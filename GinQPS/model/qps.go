@@ -1,5 +1,7 @@
 package model
 
+import "fmt"
+
 type User struct {
 	Id       int64
 	Name     string
@@ -10,4 +12,8 @@ type User struct {
 
 func (User) TableName() string {
 	return "qps.user"
+}
+
+func (u User) GetKey() string {
+	return fmt.Sprintf("1_%d", u.Id)
 }
