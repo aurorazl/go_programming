@@ -61,7 +61,7 @@ func batchScanMysqlToRedis() {
 			if end >= totalLength {
 				end = totalLength - 1
 			}
-			redis.PipelineHSetInBatch(models[start:end], 10000)
+			redis.PipelineHSetInBatch(models[start:end], 3000)
 		}(i)
 	}
 	time.Sleep(2000)
