@@ -34,13 +34,13 @@ func (d *Dog) Speak() string {
 func main() {
 	d := Dog{
 		Animal: Animal{name: "Hachiko"},
-		Gender:  "male",
+		Gender: "male",
 	}
 	fmt.Println(d.Name())
 	fmt.Println(d.Speak())
 	d.Play() // Play() 中调用的是基类 Animal.Speak() 方法，而不是 Dog.Speak()
 
-	a:="test"
-	b:="test"
-	fmt.Print(&a==&b)
+	a := "test"
+	b := "test"
+	fmt.Print(&a == &b)
 }
