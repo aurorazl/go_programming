@@ -22,6 +22,12 @@ func GetUserByName(name string) model.User {
 	return user
 }
 
+func GetUserListBySearchFavorite(favorite string) []model.User {
+	var users []model.User
+	mysql.Db.Where("favorite like '?%'", favorite).Find(&users)
+	return users
+}
+
 func GetUserByIdOnRedis(id int64) model.User {
 	var user model.User
 	result := redis.HGetAll(fmt.Sprintf("1_%d", id))

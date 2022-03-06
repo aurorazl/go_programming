@@ -221,7 +221,7 @@ func main() {
 	//convertDir(dirPath)
 
 	//只能用该方法
-	name := "kafka"
+	name := "架构设计"
 	convertTxtToMarkdown(fmt.Sprintf("/Users/kelvin/Documents/workstate/Python/notebook/%s.txt", name),
 		fmt.Sprintf("/Users/kelvin/Documents/workstate/Python/notebook/markdown/%s.md", name))
 }

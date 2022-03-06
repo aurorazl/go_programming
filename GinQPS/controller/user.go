@@ -13,6 +13,7 @@ func AddGroupUser(r *gin.Engine) {
 	group.GET("/get/id/:id", wrapper(GetOneUserById))
 	group.GET("/get/id/redis/:id", wrapper(GetOneUserByIdOnRedis))
 	group.GET("/get/name/:name", wrapper(GetOneUserByName))
+	group.GET("/search/favorite/:favorite", wrapper(GetUserListBySearchFavorite))
 	group.POST("/create", wrapper(CreateUser))
 }
 
@@ -38,6 +39,12 @@ func GetOneUserByName(c *gin.Context) error {
 	name := c.Param("name")
 	user := service.GetUserByName(name)
 	return Response(c, config.SUCCESS_CODE, "success", user)
+}
+
+func GetUserListBySearchFavorite(c *gin.Context) error {
+	favorite := c.Param("favorite")
+	users := service.GetUserListBySearchFavorite(favorite)
+	return Response(c, config.SUCCESS_CODE, "success", len(users))
 }
 
 func CreateUser(c *gin.Context) error {
