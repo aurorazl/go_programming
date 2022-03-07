@@ -37,7 +37,7 @@ func generateUserInBatch(num int64, goroutineNum int) {
 		users = append(users, model.User{
 			Name:     uuid.New().String(),
 			Age:      int8(rand.Intn(100)),
-			Favorite: favorites[rand.Intn(4)],
+			Favorite: favorites[rand.Intn(4)] + uuid.New().String()[:5],
 			Salary:   rand.Int31n(10000)})
 	}
 	service.BatchInsertUser(users, 10000)
@@ -50,12 +50,12 @@ func batchGenerateUser() {
 		go func(i int) {
 			queue <- struct{}{}
 			w.Add(1)
-			generateUserInBatch(100000, i)
+			generateUserInBatch(500000, i)
 			<-queue
 			w.Done()
 		}(i)
 	}
-	time.Sleep(1000)
+	time.Sleep(10000)
 	w.Wait()
 	fmt.Println("insert done")
 }
@@ -109,6 +109,6 @@ func selectDemo() {
 	}
 }
 
-//func main() {
-//	//contextTimeoutDemo()
-//}
+func main() {
+	//batchGenerateUser()
+}

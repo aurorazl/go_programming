@@ -3,16 +3,18 @@ package controller
 import (
 	"GinQPS/model"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
 type HandlerFunc func(c *gin.Context) error
 
 func wrapper(handler HandlerFunc) func(c *gin.Context) {
+	//output := make(chan bool, 1)
 	return func(c *gin.Context) {
 		err := handler(c)
 		if err != nil {
-			return
+			log.Println(err)
 		}
 	}
 }

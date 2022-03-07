@@ -24,7 +24,7 @@ func GetUserByName(name string) model.User {
 
 func GetUserListBySearchFavorite(favorite string) []model.User {
 	var users []model.User
-	mysql.Db.Where("favorite like '?%'", favorite).Find(&users)
+	mysql.Db.Where("favorite like ?", favorite + "%").Find(&users)
 	return users
 }
 
@@ -62,4 +62,16 @@ func InsertUser(user model.User) {
 
 func BatchInsertUser(users []model.User, batchSize int) {
 	mysql.Db.CreateInBatches(&users, batchSize)
+}
+
+func ListUsers(offset, limit int, name string) []model.User {
+	var users []model.User
+	if name!= "" {
+		mysql.Db.Where("name like ?", name + "%")
+	}
+	//mysql.Db.Offset(offset).Limit(limit).Find(&users)
+	mysql.Db.Raw(
+		fmt.Sprintf("select b.* from (select id from qps.user limit %d offset %d) a left join qps.user b on a.id=b.id",
+			limit, offset)).Find(&users)
+	return users
 }

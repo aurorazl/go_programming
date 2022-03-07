@@ -24,3 +24,7 @@ DELIMITER ;	--改回来
 call autoinsert(1000000);
 
 alter table qps.user add index (name)
+
+explain select count(1) from `qps`.`user` WHERE favorite like 'run%'
+
+alter table qps.user add index(favorite)

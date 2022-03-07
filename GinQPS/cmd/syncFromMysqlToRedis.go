@@ -69,6 +69,6 @@ func batchScanMysqlToRedis() {
 	fmt.Println("sync done")
 }
 
-func main() {
-	batchScanMysqlToRedis()
-}
+//func main() {
+//	batchScanMysqlToRedis()
+//}
