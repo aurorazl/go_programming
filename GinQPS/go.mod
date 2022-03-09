@@ -3,7 +3,7 @@ module GinQPS
 go 1.13
 
 require (
-	github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5 // indirect
+	github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5
 	github.com/fatih/structs v1.1.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-playground/validator/v10 v10.10.0 // indirect
@@ -12,6 +12,7 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/prometheus/client_golang v1.12.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
+	github.com/smartystreets/goconvey v1.7.2 // indirect
 	github.com/ugorji/go v1.2.7 // indirect
 	github.com/zsais/go-gin-prometheus v0.1.0
 	golang.org/x/crypto v0.0.0-20220214200702-86341886e292 // indirect
