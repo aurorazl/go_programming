@@ -16,11 +16,13 @@ var ctx = context.Background()
 
 func init() {
 	redisConf := config.Config.DBConf.RedisConf
-	// 这个库没有pool的技术（经过测试最大80，不是redis server的上限info clients查看），可以考虑其他库
+	// 这个库底层有connPool技术（经过测试最大80，不是redis server的上限info clients查看），可以考虑其他库
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", redisConf.IP, redisConf.Port),
 		Password: redisConf.Password, // no password set
 		DB:       redisConf.Database, // use default DB
+		PoolSize: 20, //Default is 10 connections per every available CPU as reported by runtime.GOMAXPROCS.
+		MinIdleConns: 20,
 	})
 	redisConn = rdb
 }

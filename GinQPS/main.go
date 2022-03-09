@@ -8,11 +8,11 @@ import (
 	"github.com/gin-gonic/gin"
 	ginprometheus "github.com/zsais/go-gin-prometheus"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 )
 
 func main() {
@@ -41,15 +41,16 @@ func main() {
 	// hystrix config
 	hystrix.ConfigureCommand("default_command", hystrix.CommandConfig{
 		Timeout:               3000,
-		MaxConcurrentRequests: 100,
+		MaxConcurrentRequests: 1000000,
 		ErrorPercentThreshold: 25,
 		RequestVolumeThreshold: 10, // 统计窗口10s内的请求数量，达到这个请求数量后才去判断是否要开启熔断
-		SleepWindow:            int(2 * time.Second),
+		SleepWindow:           2000,
 	})
 
-	//hystrixStreamHandler := hystrix.NewStreamHandler()
-	//hystrixStreamHandler.Start()
-	//go http.ListenAndServe(net.JoinHostPort("", "8081"), hystrixStreamHandler)
+	// hystrix metric upload
+	hystrixStreamHandler := hystrix.NewStreamHandler()
+	hystrixStreamHandler.Start()
+	go http.ListenAndServe(net.JoinHostPort("", "8081"), hystrixStreamHandler)
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)

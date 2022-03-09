@@ -39,7 +39,7 @@ func sendAlert(config config.OneConfig) {
 	if config.Message != "" {
 		message = config.Message
 	}
-	rawBody := fmt.Sprintf("{\"msg_type\":\"text\",\"content\":{\"text\":\"[%s][%s] %s\"}}",
+	rawBody := fmt.Sprintf("{\"msg_type\":\"text\",\"content\":{\"text\":\"[告警][%s-%s] %s\"}}",
 		config.Label, config.Name, message)
 	_, err := utils.DoPost(config.BotUrl, headers, rawBody)
 	if err != nil {

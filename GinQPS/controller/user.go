@@ -25,7 +25,18 @@ func GetOneUserById(c *gin.Context) error {
 	if err != nil {
 		return EmptyResponse(c, config.REQUEST_ERR_CODE, err.Error())
 	}
-	user := service.GetUserById(id)
+	var user model.User
+	err = hystrix.Do("default_command", func() error {
+		user = service.GetUserById(id)
+		return nil
+	}, func(err error) error {
+		log.Printf("error occur: %s\n", err)
+		c.Status(500)
+		return err
+	})
+	if err != nil {
+		return EmptyResponse(c, config.SERVER_ERR_CODE, err.Error())
+	}
 	return Response(c, config.SUCCESS_CODE, "success", user)
 }
 
@@ -47,6 +58,7 @@ func GetOneUserByName(c *gin.Context) error {
 func GetUserListBySearchFavorite(c *gin.Context) error {
 	favorite := c.Param("favorite")
 	var users []model.User
+	// 单独抽离出来，弄成装饰器，需要下游接收interface{}类型的数据，然后通过reflect或者类型断言来拿到对应的数据
 	err := hystrix.Do("default_command", func() error {
 		users = service.GetUserListBySearchFavorite(favorite)
 		return nil
