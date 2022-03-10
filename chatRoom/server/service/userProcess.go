@@ -11,6 +11,7 @@ import (
 
 type UserProcess struct {
 	Conn net.Conn
+	UserId int
 }
 
 func (u *UserProcess) ProcessLogin(mes *message.Message) (err error) {
@@ -27,6 +28,12 @@ func (u *UserProcess) ProcessLogin(mes *message.Message) (err error) {
 	err = dao.MyUserDao.Login(&model.User{UserId: loginMes.UserId, UserPwd: loginMes.UserPwd})
 	if err == nil {
 		loginResMes.Code = 200
+		u.UserId = loginMes.UserId
+		userMgr.NotifyOtherUserOnlineUser(loginMes.UserId)
+		userMgr.addOnlineUser(u)
+		for id, _ := range userMgr.getOnlineUsers() {
+			loginResMes.UserIds = append(loginResMes.UserIds, id)
+		}
 	} else {
 		loginResMes.Code = 403
 		loginResMes.Error = err.Error()
@@ -79,4 +86,37 @@ func (u *UserProcess) ProcessRegister(mes *message.Message) (err error) {
 	err = tf.WritePkg(data)
 	return
 
+}
+
+func (u *UserProcess) NotifyMeOnlineUser(loginUserId int) (err error) {
+	var mes message.Message
+	mes.Type = message.NotifyUserStatusMesType
+	var notifyMes message.NotifyUserStatusMes
+	notifyMes.UserId = loginUserId
+	notifyMes.UserStatus = message.UserOnline
+	data, err := json.Marshal(notifyMes)
+	if err != nil {
+		return
+	}
+	mes.Data = string(data)
+	data, err = json.Marshal(mes)
+	if err != nil {
+		return
+	}
+	tf := utils.Transfer{Conn: u.Conn}
+	err = tf.WritePkg(data)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (u *UserProcess) SendMes(mes *message.Message) (err error) {
+	data, err := json.Marshal(mes)
+	if err!=nil {
+		return err
+	}
+	tf := utils.Transfer{Conn: u.Conn}
+	err = tf.WritePkg(data)
+	return err
 }

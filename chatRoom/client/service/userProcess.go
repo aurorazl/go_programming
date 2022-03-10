@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go_programming/chatRoom/common/message"
+	"go_programming/chatRoom/common/model"
 	"go_programming/chatRoom/common/utils"
 	"net"
 )
@@ -45,6 +46,10 @@ func (u *UserProcess) Login(userId int, userPwd string) (err error) {
 	err = json.Unmarshal([]byte(mes.Data), &loginResMes)
 	if loginResMes.Code == 200 {
 		fmt.Println("login success")
+		for _, onlineUserId := range loginResMes.UserIds {
+			userMgr.onlineUsers[onlineUserId] = &model.User{UserId: onlineUserId, UserStatus: message.UserOnline}
+		}
+		userMgr.smsProcess = &SmsProcess{userId, &tf}
 		go serverProcessMes(dial)
 		for {
 			ShowMenu()

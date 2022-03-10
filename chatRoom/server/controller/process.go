@@ -26,6 +26,9 @@ func (p *Processor) ProcessMes(mes *message.Message) (err error) {
 			Conn: p.Conn,
 		}
 		userProcess.ProcessRegister(mes)
+	case message.SmsMesType:
+		process := &service.SmsProcess{}
+		process.SendGroupSms(mes)
 	default:
 		fmt.Println("mes type error")
 	}

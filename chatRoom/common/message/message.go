@@ -3,10 +3,18 @@ package message
 import "go_programming/chatRoom/common/model"
 
 const (
-	LoginMesType       = "LoginMes"
-	LoginResMesType    = "LoginResMes"
-	RegisterMesType    = "RegisterMes"
-	RegisterResMesType = "RegisterResMes"
+	LoginMesType            = "LoginMes"
+	LoginResMesType         = "LoginResMes"
+	RegisterMesType         = "RegisterMes"
+	RegisterResMesType      = "RegisterResMes"
+	NotifyUserStatusMesType = "NotifyUserStatusMes"
+	SmsMesType              = "SmsMes"
+)
+
+const (
+	UserOnline = iota
+	UserOffline
+	UserBusyStatus
 )
 
 type Message struct {
@@ -21,8 +29,9 @@ type LoginMes struct {
 }
 
 type LoginResMes struct {
-	Code  int
-	Error string
+	Code    int
+	Error   string
+	UserIds []int
 }
 
 type RegisterMes struct {
@@ -32,4 +41,15 @@ type RegisterMes struct {
 type RegisterResMes struct {
 	Code  int
 	Error string
+}
+
+type NotifyUserStatusMes struct {
+	UserId     int `json:"userId"`
+	UserStatus int `json:"userStatus"`
+}
+
+type SmsMes struct {
+	Content string `json:"content"`
+	// 发送人
+	model.User
 }

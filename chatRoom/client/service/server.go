@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"go_programming/chatRoom/common/message"
 	"go_programming/chatRoom/common/utils"
 	"net"
 	"os"
@@ -20,13 +21,17 @@ func ShowMenu() {
 	fmt.Println("请选择(1-4):")
 
 	var key int
+	var content string
 
 	fmt.Scanf("%d\n", &key)
 	switch key {
 	case 1:
 		fmt.Println("显示在线用户列表-")
+		userMgr.showAllOnlineUsers()
 	case 2:
 		fmt.Println("你想对大家说的什么:)")
+		fmt.Scanf("%s\n", &content)
+		userMgr.smsProcess.SendGroupSms(content)
 	case 3:
 		fmt.Println("信息列表")
 	case 4:
@@ -47,6 +52,15 @@ func serverProcessMes(conn net.Conn) {
 			return
 		}
 		fmt.Println(mes)
+		switch mes.Type {
+		case message.NotifyUserStatusMesType:
+			userMgr.updateOnlineUserStatus(&mes)
+		case message.SmsMesType:
+			smsProcess := SmsProcess{}
+			smsProcess.recvGroupMes(&mes)
+		default:
+			fmt.Println("unknown mes type")
+		}
 	}
 
 }
