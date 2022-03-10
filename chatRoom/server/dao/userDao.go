@@ -52,7 +52,7 @@ func (u *UserDao) Login(user *model.User) (err error) {
 func (u *UserDao) Register(user *model.User) (err error) {
 	_, err = u.GetUserById(user.UserId)
 	if err == nil {
-		err = model.ERROR_USER_TEXISTS
+		err = model.ERROR_USER_EXISTS
 		return
 	}
 	data, err := json.Marshal(user)

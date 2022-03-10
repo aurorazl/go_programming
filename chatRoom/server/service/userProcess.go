@@ -54,7 +54,7 @@ func (u *UserProcess) ProcessRegister(mes *message.Message) (err error) {
 	var registerResMes message.RegisterResMes
 	err = dao.MyUserDao.Register(&registerMes.User)
 	if err != nil {
-		if err == model.ERROR_USER_TEXISTS {
+		if err == model.ERROR_USER_EXISTS {
 			registerResMes.Code = 400
 			registerResMes.Error = err.Error()
 		} else {
