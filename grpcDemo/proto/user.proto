@@ -1,0 +1,23 @@
+syntax="proto3";
+package hello;
+
+option go_package="package/hello";
+
+message UserInfo {
+  int32 user_id=1;
+  string user_name=2;
+}
+
+message UserRequest {
+  repeated UserInfo users=1;
+}
+
+message UserResponse {
+  repeated UserInfo users=1;
+}
+
+service UserService {
+  rpc ReturnUsersByStream(UserRequest) returns (stream UserResponse) {}
+  rpc SendUsersByStream(stream UserRequest) returns (UserResponse) {}
+  rpc GetUsersByTWStream(stream UserRequest) returns (stream UserResponse) {}
+}

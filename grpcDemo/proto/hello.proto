@@ -1,21 +1,43 @@
 syntax = "proto3"; // 指定proto版本
 package hello;     // 指定默认包名
+import "google/api/annotations.proto";
+import "model.proto";
 
 // 指定golang包名
 option go_package = "package/hello";
 
-// 定义Hello服务
-service Hello {
-    // 定义SayHello方法
-    rpc SayHello(HelloRequest) returns (HelloResponse) {}
+enum Area {
+    A=0;
+    B=1;
 }
 
 // HelloRequest 请求结构
 message HelloRequest {
     string name = 1;
+    Area area=2;
 }
 
 // HelloResponse 响应结构
 message HelloResponse {
     string message = 1;
+}
+
+message QuerySize {
+    int32 size=1;
+}
+
+message NameResponseList {
+    repeated HelloResponse nameRes=1;
+}
+
+// 定义Hello服务
+service Hello {
+    // 定义SayHello方法
+    rpc SayHello(HelloRequest) returns (HelloResponse) {
+        option (google.api.http) = {
+            get: "/v1/name/{name}"
+        };
+    }
+    rpc GetNameList(QuerySize) returns (NameResponseList) {}
+    rpc GetProdInfo(HelloRequest) returns (ProdModel) {}
 }

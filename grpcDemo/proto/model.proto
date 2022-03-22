@@ -1,0 +1,19 @@
+syntax="proto3";
+package hello;
+import "google/protobuf/timestamp.proto";
+
+option go_package = "package/hello";
+
+message ProdModel {
+  int32 prod_id=1;
+  string prod_name=2;
+  float prod_price=3;
+}
+
+message OrderModel {
+  int32 order_id=1;
+  int32 order_no=2;
+  int32 user_id=3;
+  float order_money=4;
+  google.protobuf.Timestamp order_time=5;
+}
