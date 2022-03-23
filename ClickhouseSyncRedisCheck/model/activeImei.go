@@ -3,10 +3,10 @@ package model
 import "gorm.io/datatypes"
 
 type ActiveImei struct {
-	Imei            string
-	FirstActiveDate datatypes.Date `gorm:"column:first_active_date"`
+	Imei            string `gorm:"column:imei1_md5"`
+	FirstActiveDate datatypes.Date `gorm:"column:active_date"`
 }
 
 func (ActiveImei) TableName() string {
-	return "SALES_DWD.all_channel_active_info_all"
+	return "SALES_ODS.new_active_device_imei_all"
 }

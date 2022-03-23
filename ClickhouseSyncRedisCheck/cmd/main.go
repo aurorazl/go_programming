@@ -46,7 +46,7 @@ func queryClickhouseActiveImei() []string {
 }
 
 func ScanRedisActiveImeis() []string {
-	prefix := "zg_1_"
+	prefix := "zg_3_"
 	rets := redis.Scan(prefix + "*")
 	fmt.Println("redis scan done")
 	imei_list := []string{}
@@ -73,7 +73,7 @@ func DeleteRedisImeis(imeis []interface{}) {
 }
 
 func GetImeiFirstActiveDate(imei string) string {
-	prefix := "zg_1_"
+	prefix := "zg_3_"
 	data := redis.HGetAll(prefix + imei)
 	jsonStr, err := json.Marshal(data)
 	if err != nil {
